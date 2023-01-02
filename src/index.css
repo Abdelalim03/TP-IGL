@@ -11,6 +11,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   
 }
+html{
+  -webkit-text-size-adjust: 100%;
+}
 
 @media (prefers-color-scheme: dark) {
   html {
@@ -27,13 +30,14 @@ code {
     monospace;
 }
 
+/* Start Navbar */
 .navbar{
   box-shadow: 0px 10px 6px rgba(0, 0, 0, 0.25);
-  @apply fixed top-0 h-16 md:h-20 w-screen bg-navbar flex justify-between px-10 items-center;
+  @apply fixed top-0 h-16 md:h-20 w-screen bg-navbar flex justify-between px-7 lg:px-10 items-center;
 }
 
 .nav-button{
-  @apply bg-white text-mainColor hover:bg-mainColor hover:text-white w-fit uppercase font-normal lg:font-semibold py-2 lg:py-3 px-3 lg:px-5 text-base lg:text-lg rounded-[56px] transition-all delay-100 duration-300 ;
+  @apply bg-white text-mainColor hover:bg-mainColor hover:text-white w-fit uppercase font-semibold py-2 lg:py-3 px-3 lg:px-5 text-sm lg:text-lg rounded-[56px] transition-all delay-100 duration-300 ;
 }
 
 .navbar-burger {
@@ -41,9 +45,12 @@ code {
 }
 
 .nav-button-mob{
-  @apply text-black hover:text-mainColor w-fit uppercase font-medium py-2  px-3  text-base transition-all delay-100 duration-300
+  @apply text-black hover:text-mainColor w-fit uppercase font-medium py-2    text-base transition-all delay-100 duration-300
 }
 
+/* End Navbar */
+
+/* Start Home */
 .home{
   background-image: linear-gradient(rgba(132, 161, 186, 0.5), rgba(132, 161, 186, 0.5)),url('./assets/home_immo.png');
   background-attachment: fixed;
@@ -53,4 +60,54 @@ code {
 
 .act-button {
   @apply text-white hover:bg-[#127281] bg-[#00AFCA] text-xl md:text-2xl font-semibold md:font-bold  rounded-[41px] transition-all delay-100 duration-300;
+}
+
+/* End Home */
+
+/* Start Annonces */
+.image-swiper-button-next{
+  width: 10px;
+  background-color: red;
+  background-image: url('./assets/arrowcircleright.svg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.image-swiper-button-prev{
+  background-image: url('./assets/arrowcircleright.svg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* End Annonces */
+
+.swiper-button {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  cursor: pointer;
+  background-color: #FFFFFFCC;
+  padding: 3px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.image-swiper-button-prev {
+  left: 5px;
+}
+.image-swiper-button-next {
+  right: 5px;
+}
+.swiper-button-disabled {
+  opacity: 0.5;
+}
+
+
+.filter-select{
+  @apply select text-[#105186] bg-white text-lg lg:text-xl  border-[1px] border-[#888282] font-semibold   w-full max-w-xs;
 }

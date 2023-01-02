@@ -1,25 +1,33 @@
-import { useSelector } from 'react-redux';
 import {BrowserRouter as Router ,Route,Routes} from 'react-router-dom'
-import Navbar from './components/shared/Navbar';
+import Layout from './components/shared/Layout';
+import AnnonceDetails from './pages/AnnonceDetails';
+import Favorites from './pages/Favorites';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import PostAnnonce from './pages/PostAnnonce';
+import SelfAnnonces from './pages/SelfAnnonces';
+import Post from './pages/Post';
 import Signup from './pages/Signup';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 function App() {
-  const {user} = useSelector((state)=>state.auth)
 
   return (
-    <Router>
-        <Navbar button0={user &&"CONSULTER MES FAVORIS"} button1={user ?"CONSULTER MES ANNONCES":"Créer COMPTE"} button2={user ?"PUBLIER UNE ANNONCE":"se connecter"}  />
-        <Routes >
-          <Route path="/" >
-            <Route  index element={<Home />} />
-            <Route path='signup' element={<Signup />} />
-            <Route path='login' element={<Login />} />
-            <Route path='postAnnonce' element={<PostAnnonce />} />
-          </Route>
-        </Routes>
-    </Router>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}>
+      <Router>
+          <Routes >
+            <Route path="/" element={<Layout />} >
+              <Route index element={<Home />} />
+              <Route path='signup' element={<Signup />} />
+              <Route path='login' element={<Login />} />
+              <Route path='annonces' element={<PostAnnonce />} />
+              <Route path='annonces/:id' element={<AnnonceDetails />} />
+              <Route path='favorites' element={<Favorites />} />
+              <Route path='myannonces' element={<SelfAnnonces />} />
+              <Route path='postannonce' element={<Post />} />
+            </Route>
+          </Routes>
+      </Router>
+    </GoogleOAuthProvider>
   );
 }
 
