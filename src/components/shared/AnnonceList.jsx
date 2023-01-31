@@ -6,76 +6,34 @@ import heart from '../../assets/heart.svg';
 import close from '../../assets/close.svg';
 import house from '../../assets/house.svg';
 import redHeart from '../../assets/redHeart.svg';
-  // import Swiper and modules styles
-
-  import "swiper/css";
-//   import "swiper/css/navigation";
+import "swiper/css";
 import { Navigation,FreeMode } from "swiper";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { addFavorite, deleteAnnonce, deleteFavorite } from '../../features/annonces/annonceSlice';
+import jwtDecode from 'jwt-decode';
 
-function AnnonceList({fav,mine,favorites}) {
-    const [annonces, setAnnonces] = useState([
-        {
-            id:1,
-            title:"Maison à louer a Oued Smar",
-            description:"LA MAISON EST COMPOSEE DE PLUSIEURES PIECES SPACISUESES POUR HABITATION OU USAGE COMMERCIALE (atelier,créche ,bureaux ,boulangerie ,;;;;) avec un espace vert",
-            imgs:["../../assets/home_immo.png","../../assets/home_immo.png"],
-            type:"maison",
-            surface:"120 m2",
-            categorie:"echange",
-            localisation:"harrach",
-            prix:10.7
-    
-        },
-        {
-            id:2,
-            title:"Piscine à louer a Oued Smar",
-            description:"LA MAISON EST COMPOSEE DE PLUSIEURES PIECES SPACISUESES POUR HABITATION OU USAGE COMMERCIALE (atelier,créche ,bureaux ,boulangerie ,;;;;) avec un espace vert",
-            imgs:["../../assets/home_immo.png","../../assets/home_immo.png","../../assets/home_immo.png","../../assets/home_immo.png"],
-            type:"piscine",
-            surface:"120 m2",
-            categorie:"vente",
-            localisation:"oued smar",
-            prix:10.7
-    
-        },
-        {
-          id:3,
-          title:"Maison à louer a Oued Smar",
-          description:"LA MAISON EST COMPOSEE DE PLUSIEURES PIECES SPACISUESES POUR HABITATION OU USAGE COMMERCIALE (atelier,créche ,bureaux ,boulangerie ,;;;;) avec un espace vert",
-          imgs:["../../assets/home_immo.png","../../assets/home_immo.png"],
-          type:"maison",
-          surface:"120 m2",
-          categorie:"echange",
-          localisation:"harrach",
-          prix:10.7
-  
-      },
-      {
-          id:4,
-          title:"Piscine à louer a Oued Smar",
-          description:"LA MAISON EST COMPOSEE DE PLUSIEURES PIECES SPACISUESES POUR HABITATION OU USAGE COMMERCIALE (atelier,créche ,bureaux ,boulangerie ,;;;;) avec un espace vert",
-          imgs:["../../assets/home_immo.png","../../assets/home_immo.png","../../assets/home_immo.png","../../assets/home_immo.png"],
-          type:"piscine",
-          surface:"120 m2",
-          categorie:"vente",
-          localisation:"oued smar",
-          prix:10.7
-  
-      }
-    ]);
-    const [favourites, setFavourites] = useState(favorites||[]);
+function AnnonceList({fav,mine,annonces,setAnnonces,search}) {
+    const dispatch = useDispatch()
+    const {user} = useSelector((state)=>state.auth);
+    const {favourites} = useSelector((state)=>state.annonce);
     const [message, setMessage] = useState("");
+
     const handleFav =(id)=>{
-      console.log(favourites);
-      if (favourites.includes(id)){
-        setFavourites(favourites.filter(item=>item!==id));
+      if (favourites?.some(fav=>JSON.stringify(fav)===JSON.stringify(id))){
+        dispatch(deleteFavorite(id.id));
+
+        if (!search)
+          setAnnonces(annonces?.filter(annonce=>annonce.id!==id.id))
       }else{
-        setFavourites([...favourites,id])
+        dispatch(addFavorite(id.id))
+        if (!search)
+        setAnnonces([...annonces,id])
       }
     }
     const handleDelete = (id)=>{
+      dispatch(deleteAnnonce(id))
       setAnnonces(annonces.filter(annonce=>annonce.id!==id));
     }
     const sendMessage = async(content,id) =>{
@@ -85,15 +43,16 @@ function AnnonceList({fav,mine,favorites}) {
       },
       {
         headers:{
-          "Content-Type":"application/json"
+          "Content-Type":"application/json",
+          "Authorization":`Bearer ${user.token}`
         }
       });
 
       if (res.data.ok) setMessage('');
     }
-   const card = annonces.map(annonce=>
-        (<div key={annonce.id} className='bg-[#E9E9E9]  border-[1px] w-full border-[#888282] rounded-xl flex flex-col md:flex-row shadow-lg  '>
-           <div className="w-full md:w-1/3">
+   const card = annonces?.map(annonce=>
+        (<div key={annonce.id} className='bg-[#E9E9E9] relative  border-[1px] min-h-[250px] w-full border-[#888282] rounded-xl flex flex-col md:flex-row shadow-lg  '>
+           <div className="w-full relative min-h-[180px] md:w-1/3">
              <Swiper className='h-auto md:h-full '  navigation={{
                enabled:true,
                nextEl: ".image-swiper-button-next",
@@ -108,34 +67,38 @@ function AnnonceList({fav,mine,favorites}) {
                 </div>
                 
                 
-                   { annonce.imgs.map((img,idx)=>
-                     <SwiperSlide key={img+idx} >
-                          {fav &&<div onClick={()=>handleFav(annonce.id)} className='absolute cursor-pointer flex justify-center items-center bg-[#FFFFFFCC] top-3 left-3 p-2 w-9 h-9 rounded-full'>
-                              <img src={favourites.includes(annonce.id)?redHeart: heart} alt="" />
-                          </div>}
-                          <div className='absolute right-0 rounded-tr-lg md:rounded-tr-none rounded-bl-3xl z-10 bg-[#00AFCA] px-4 py-2 text-white shadow-lg'>{annonce.prix +" DA"}</div>
-                          <div className='absolute left-10 top-10 w-10 h-10 p-1 rounded-full flex justify-center items-center'></div>
+                   { annonce.imgs?.map((img,idx)=>
+                     <SwiperSlide key={img+idx} > 
                          <img className= 'rounded-t-lg md:rounded-t-none md:rounded-l-lg   h-full' src={require("../../assets/home_immo.png")} alt={"image"+idx} />
                      </SwiperSlide>
                      )}
-                 
+                  {!annonce.imgs &&
+                    <SwiperSlide  >      
+                        <img className= 'rounded-t-lg md:rounded-t-none md:rounded-l-lg   h-full' src={require("../../assets/dar.jpeg")} alt={"image"} />
+                    </SwiperSlide>
+                  }
                  
              </Swiper>
+             <div className='absolute right-0 top-0 rounded-tr-lg md:rounded-tr-none rounded-bl-3xl z-10 bg-[#00AFCA] px-4 py-2 text-white shadow-lg'>{annonce.price +" DA"}</div>
+             {fav &&<div onClick={()=>handleFav(annonce)} className='absolute z-10 cursor-pointer flex justify-center items-center bg-[#FFFFFFCC] top-3  left-3  p-2 w-9 h-9 rounded-full'>
+                    <img src={favourites?.some(fav=>{return JSON.stringify(fav)===JSON.stringify(annonce)})?redHeart: heart} alt="" />
+                </div>}
            </div>
             
-            <div className=' md:w-2/3 leading-loose p-5'>
+            <div className=' relative md:w-2/3 mb-16  leading-loose p-5'>
                  <Link to={'/annonces/'+annonce.id} className='text-mainColor font-bold text-xl cursor-pointer'>{annonce.title}</Link>
                  <p className='text-navbar font-bold text-lg'>{annonce.type}</p>
-                 <p className='text-lg text-[#514F4D]'>{annonce.categorie}</p>
-                 <p className='text-lg text-[#514F4D]'>{annonce.surface}</p>
-                 <p className='text-lg text-[#514F4D]'>{annonce.position}</p>
+                 <p className='text-lg font-semibold text-[#514F4D]'>{annonce.category}</p>
+                 <p className='text-lg font-semibold text-[#514F4D]'>{annonce.space}</p>
+                 <p className='text-lg font-semibold text-[#514F4D]'>{annonce.localisation}</p>
                  <p className='text-lg text-[#807D7C]'>{annonce.description}</p>
-                 {<label  htmlFor={"confirm-modal"+annonce.id} className={`float-right mt-3 cursor-pointer px-6 py-3 ${!mine?"bg-mainColor":"bg-red-600"} font-semibold uppercase text-white rounded-[56px]`}>{!mine?"Contacter":"Suppprimer"}</label>}
+                 
             </div>
+            <label  htmlFor={"confirm-modal"+annonce.id} className={` absolute bottom-5 w-fit  left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto  md:right-5 cursor-pointer px-6 py-3 ${!jwtDecode(user.token).sub===annonce.userId?"bg-mainColor":"bg-red-600"} font-semibold uppercase text-white rounded-[56px]`}>{!jwtDecode(user.token).sub===annonce.userId?"Contacter":"Suppprimer"}</label>
             <input type="checkbox" id={"confirm-modal"+annonce.id} className="modal-toggle" />
             <div  className="modal">
-              <label className={`relative  overflow-visible modal-box ${mine ?"h-fit":"h-2/5"}  flex flex-col justify-between items-center  bg-white border-2 border-[#888282] rounded-xl`} htmlFor="">
-                {!mine &&
+              <label className={`relative  overflow-visible modal-box ${jwtDecode(user.token).sub===annonce.userId ?"h-fit":"h-2/5"}  flex flex-col justify-between items-center  bg-white border-2 border-[#888282] rounded-xl`} htmlFor="">
+                {!jwtDecode(user.token).sub===annonce.userId &&
                 <>
                   <label onClick={()=>setMessage("")} className='cursor-pointer' htmlFor={"confirm-modal"+annonce.id}><img className='absolute w-8 -right-3.5 -top-3.5'  src={close} alt="fermer" /></label> 
                   <img className='absolute w-20 -top-12 left-1/2 -translate-x-1/2' src={house} alt="fermer" />
@@ -143,18 +106,19 @@ function AnnonceList({fav,mine,favorites}) {
                   <textarea value={message} onChange={(e)=>setMessage(e.target.value)} name="title" id="tit"  className="bg-[#E9E9E9] focus:ring-0 focus:border-[#888282] mt-4  text-[#7C8287] h-full w-full p-3 resize-none border-2 border-[#888282] rounded-xl outline-none "   placeholder="Envoyer message d'offre à l'annonceur" ></textarea>
                 </>}
                 {
-                  mine &&
+                  jwtDecode(user.token).sub===annonce.userId &&
                   <>
                     <h2>Vous etes sur que vous voulez supprimer cette annonce </h2>
                   </>
                 }
                 <div className=" modal-action">
                   <label onClick={
-                    ()=> {mine ? handleDelete(annonce.id):
-                    sendMessage(message,annonce.id);
+                    ()=> {
+                      jwtDecode(user.token).sub===annonce.userId ? handleDelete(annonce.id):
+                   (message.length)&& sendMessage(message,annonce.id);
                     }
-                  } htmlFor={"confirm-modal"+annonce.id}  className={`cursor-pointer rounded-[56px] px-6 py-2 text-white font-semibold border-none ${!mine?"bg-mainColor":"bg-red-600"} `}>{!mine?"Envoyer":"Suppprimer"}</label>
-                   {mine &&<label htmlFor={"confirm-modal"+annonce.id}  className="cursor-pointer rounded-[56px] px-6 py-2 text-white font-semibold border-none bg-slate-400"> Annuler</label>}
+                  } htmlFor={"confirm-modal"+annonce.id}  className={`cursor-pointer rounded-[56px] px-6 py-2 text-white font-semibold border-none ${!jwtDecode(user.token).sub===annonce.userId?"bg-mainColor":"bg-red-600"} `}>{!jwtDecode(user.token).sub===annonce.userId?"Envoyer":"Suppprimer"}</label>
+                   {jwtDecode(user.token).sub===annonce.userId &&<label htmlFor={"confirm-modal"+annonce.id}  className="cursor-pointer rounded-[56px] px-6 py-2 text-white font-semibold border-none bg-slate-400"> Annuler</label>}
                 </div>
               </label>
             </div>

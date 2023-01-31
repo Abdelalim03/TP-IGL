@@ -106,8 +106,51 @@ code {
 .swiper-button-disabled {
   opacity: 0.5;
 }
-
+.simple-select{
+  @apply select text-[#105186] bg-white text-lg   border-[1px] border-[#888282] font-semibold  ;
+}
 
 .filter-select{
   @apply select text-[#105186] bg-white text-lg lg:text-xl  border-[1px] border-[#888282] font-semibold   w-full max-w-xs;
+}
+
+
+.loadingSpinnerContainer {
+  position: fixed;
+  top: 80px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 5000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingSpinner {
+  width: 64px;
+  height: 64px;
+  border: 8px solid;
+  border-color: #000 transparent #555 transparent;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+.myDatePicker fieldset.MuiOutlinedInput-notchedOutline {
+  border-color: green;
+}
+
+.myDatePicker .Mui-focused fieldset.MuiOutlinedInput-notchedOutline {
+  border-color: red;
+}
+.react-datepicker-wrapper input[type="text"]{
+  border: none;
+}
+.myDatePicker input[type="text"]{
+  border: none;
+}
+
+.form-input-ann {
+  @apply bg-[#E9E9E9] text-[#888282] border-[1px] px-5 py-3 rounded-xl border-[#888282] w-full resize-none focus:border-[#888282] outline-none focus:ring-0 
 }

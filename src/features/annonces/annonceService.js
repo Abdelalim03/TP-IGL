@@ -1,48 +1,88 @@
 import axios from 'axios'
 
-const API_URL = '/'
+const API_URL = 'http://localhost:5000/'
 
-// Register user
-const deleteAnonce = async (annonceData) => {
-  const response = await axios.post(API_URL, annonceData)
+// delete Annonce
+const mesAnnonces = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.get(API_URL+'getMine',config)
+  return response.data.data
+}
 
-  if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data))
+// delete Annonce
+const deleteAnnonce = async (annonceID,token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   }
 
+  const response = await axios.post(API_URL+'delete', {id:annonceID},config)
+  console.log(response.data); 
   return response.data
 }
 
-// Login user
-const addAnnonce = async (userData) => {
-  const response = await axios.post(API_URL + 'new', userData)
-
-  if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data))
+// add Annonce
+const addAnnonce = async (annonceData,token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   }
+  const response = await axios.post(API_URL + 'new', annonceData,config)
 
-  return response.data
-}
-
-// Logout user
-const addFavorite = async (annonceId) => {
-  const response = await axios.post(API_URL + 'setfav', {id:annonceId})
  
+
   return response.data
 }
 
-const deleteFavorite = async (annonceId) => {
-  const response = await axios.post(API_URL + 'unsetfav', {id:annonceId})
+const getFavourites = async (token)=>{
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.get(API_URL + 'getfav',config)
+  return response.data.data
+}
+
+
+// add Favourite
+
+
+const addFavorite = async (annonceId,token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.post(API_URL + 'setfav', {id:annonceId},config)
+  return response.data
+}
+
+const deleteFavorite = async (annonceId,token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.post(API_URL + 'unsetfav', {id:annonceId},config)
  
   return response.data
 }
 
 
 const annonceService = {
-  deleteAnonce,
+  deleteAnnonce,
   addFavorite,
   addAnnonce,
-  deleteFavorite
+  deleteFavorite,
+  getFavourites,
+  mesAnnonces
 }
 
 export default annonceService

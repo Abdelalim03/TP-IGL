@@ -5,6 +5,6 @@ import annonceReducer from '../features/annonces/annonceSlice'
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    annonces:annonceReducer
+    annonce:annonceReducer
   },
 });

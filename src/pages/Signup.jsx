@@ -1,11 +1,16 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import jwt_decode from "jwt-decode";
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 
 function Signup() {
-  const navigate = useNavigate();
-
- 
+  const {user} = useSelector(state=>state.auth);
+    const navigate = useNavigate();
+    useEffect(() => {
+      if (user) navigate('/');
+    
+      
+    }, [])
   return (
     <div className='flex justify-center mt-16 md:mt-20 items-center h-[calc(100vh-64px)] md:h-[calc(100vh-80px)]'>
         <div className='flex flex-col shadow-xl rounded-3xl h-2/5 w-2/5'>
