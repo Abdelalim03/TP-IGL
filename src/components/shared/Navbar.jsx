@@ -22,20 +22,20 @@ function Navbar({user,button1,button2,button0,isToggle,setIsToggle}) {
         <div className={`navbar  z-20  `}>
           
             <div className="flex items-center  gap-5">
-                    <Link to={'/'} className="text-white select-none cursor-pointer font-bold">
+                    {/* <Link to={'/'} className="text-white select-none cursor-pointer font-bold">
                         LOGO
-                    </Link>
+                    </Link> */}
                     
-                    {user && <div className="bg-slate-400 bg-opacity-30 flex items-center gap-2">
+                    {user && <Link to={'/'} className=" flex items-center gap-2">
                       <img className="w-10 h-10 rounded-full" src={user.picture} alt="photodeprofil" />
                       <span className="text-lg text-white font-bold">{user.name}</span>
-                    </div>}
+                    </Link>}
             </div>
 
             <div className="hidden md:flex gap-2 lg:gap-4" >
                 {button0 && <Link to={button0==="MES FAVORIS"&&"/favorites"} className="nav-button">{button0}</Link>}
                 {button1 && <Link to={button1==="Créer COMPTE"?"/signup":"/myannonces"} className="nav-button">{button1}</Link>}
-                {button2 && <Link to={button2==="se connecter"?"/login":"/postAnnonce"} className="nav-button">{button2}</Link>}
+                {button2 && <Link to={button2==="se connecter"?"/":"/postAnnonce"} className="nav-button">{button2}</Link>}
                   {user && <div className="flex items-center justify-end gap-5">
                     
                     <Link  to={'/messages'}>
@@ -48,13 +48,13 @@ function Navbar({user,button1,button2,button0,isToggle,setIsToggle}) {
             </div>
 
             <div className="md:hidden" >
-            {user && <div className="flex items-center justify-end gap-5 mr-5">
+            {/* {user && <div className="flex items-center justify-end gap-5 mr-5">
                     <span className="text-lg text-white font-bold">{user.name}</span>
                     <img className="w-10 h-10 rounded-full" src={user.picture} alt="photodeprofil" />
                     <div className="cursor-pointer" onClick={handleOut}  >
                       <BiLogOut className="text-white rotate-180 w-8 h-8"/>
                     </div>
-                  </div>}
+                  </div>} */}
               {isToggle ? (
                 <div onClick={Menu} className="flex flex-col  cursor-pointer justify-center align-center md:hidden">
                   <div className="w-10 h-1 absolute rounded-full bg-[#FFFFFF] -rotate-45"></div>
