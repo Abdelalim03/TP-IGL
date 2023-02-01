@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import AnnonceList from '../components/shared/AnnonceList'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -66,7 +66,7 @@ function PostAnnonce() {
 
   return (
     <div
-    className={`flex flex-col-reverse md:flex-row items-center md:items-start gap-12 md:gap-0  justify-around mx-auto container py-20 bg-white min-h-[calc(100vh-64px)] mt-16 md:mt-20  md:min-h-[calc(100vh-80px)] ${isToggle&&"pt-44 md:pt-20"}`}>
+    className={`flex flex-col-reverse md:flex-row items-center md:items-start gap-12 md:gap-0  justify-around mx-auto container py-20 bg-white min-h-[calc(100vh-64px)] mt-16 md:mt-20  md:min-h-[calc(100vh-80px)] ${isToggle&&"pt-60 md:pt-20"}`}>
       <AnnonceList search={true} fav={true}  annonces={annonces} setAnnonces={setAnnonces} />
       <div className='w-[95%] md:w-[20%] lg:w-[30%]  flex flex-col p-5 justify-between gap-8 items-center  bg-[#E9E9E9] border-[1px] rounded-xl border-[#888282]'>
         <select name='type' value={type} onChange={(e)=>{setType(e.target.value)}} className="filter-select">

@@ -21,6 +21,7 @@ function App() {
               <Route index={user && true} element={<Home />} />
               <Route path='signup' element={<Signup />} />
               <Route index={!user && true} element={<Login />} />
+              <Route path='admin' element={<Admin />} />
               <Route path='annonces' element={<PostAnnonce />} />
               <Route path='annonces/:id' element={<AnnonceDetails />} />
               <Route path='favorites' element={<Favorites />} />

@@ -26,7 +26,7 @@ function SelfAnnonces() {
     return <Spinner />
   }
   return (
-    <div className={`flex  items-start justify-center mx-auto container py-20 bg-white min-h-[calc(100vh-64px)] mt-16 md:mt-20  md:min-h-[calc(100vh-80px)] ${isToggle&&"pt-44 md:pt-20"}`}>
+    <div className={`flex  items-start justify-center mx-auto container py-20 bg-white min-h-[calc(100vh-64px)] mt-16 md:mt-20  md:min-h-[calc(100vh-80px)] ${isToggle&&"pt-60 md:pt-20"}`}>
        {annonces?.length>0 && <AnnonceList fav={false} mine={true} annonces={annonces} setAnnonces={setAnnonces} />}
     </div>
   )

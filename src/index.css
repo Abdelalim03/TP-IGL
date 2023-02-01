@@ -37,7 +37,7 @@ code {
 }
 
 .nav-button{
-  @apply bg-white text-mainColor hover:bg-mainColor hover:text-white w-fit uppercase font-semibold py-2 lg:py-3 px-3 lg:px-5 text-sm lg:text-lg rounded-[56px] transition-all delay-100 duration-300 ;
+  @apply  hover:bg-mainColor hover:text-white w-fit uppercase font-semibold py-2 lg:py-3 px-3 lg:px-5 text-sm lg:text-lg rounded-[56px] transition-all delay-100 duration-300 ;
 }
 
 .navbar-burger {
@@ -107,7 +107,7 @@ code {
   opacity: 0.5;
 }
 .simple-select{
-  @apply select text-[#105186] bg-white text-lg   border-[1px] border-[#888282] font-semibold  ;
+  @apply select text-[#105186] bg-white text-base lg:text-lg   border-[1px] border-[#888282] font-semibold  ;
 }
 
 .filter-select{
@@ -152,5 +152,5 @@ code {
 }
 
 .form-input-ann {
-  @apply bg-[#E9E9E9] text-[#888282] border-[1px] px-5 py-3 rounded-xl border-[#888282] w-full resize-none focus:border-[#888282] outline-none focus:ring-0 
+  @apply bg-[#E9E9E9] text-sm md:text-base lg:text-lg text-black placeholder:text-[#888282] border-[1px] px-5 py-3 rounded-xl border-[#888282] w-full resize-none focus:border-[#888282] outline-none focus:ring-0 
 }

@@ -35,7 +35,7 @@ function Home() {
         }
       })
       .then(response=>{
-        if (response.data.data===0) setErr(2);
+        if (response.data.data.length===0) {setErr(2)};
         setAnnonces(response.data.data);
       })
       .catch(err=>console.log(err))
@@ -43,7 +43,7 @@ function Home() {
     }
   }
   return (
-    <div className={`flex flex-col items-center justify-around py-20 min-h-[calc(100vh-64px)]  md:min-h-[calc(100vh-80px)] mt-16 md:mt-20 home ${isToggle&&"pt-28"}`}>
+    <div className={`flex flex-col items-center justify-around py-20 min-h-[calc(100vh-64px)]  md:min-h-[calc(100vh-80px)] mt-16 md:mt-20 home ${isToggle&&"pt-44"}`}>
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl mt-6 text-white font-extrabold drop-shadow-lg">Emménagez en 1, 2, 3 !</h2>
         <p className="text-2xl md:text-3xl mt-6 text-white font-semibold drop-shadow-lg">Tout l'immobilier en Algérie en vente ou location!</p>
@@ -68,9 +68,10 @@ function Home() {
       <label htmlFor="mots-modal" className="modal cursor-pointer">
         <label className="modal-box h-2/5 flex flex-col justify-between items-center relative bg-[#E9E9E9] border-2 border-[#888282] rounded-xl" htmlFor="">
           <textarea name="mots" id="mots"
+          autoFocus={true}
           onChange={(e)=>{
-            if(e.target.value.length)
-            if(e.target.value.trim().length ) setMots(e.target.value.split(',').map(mot=>mot.trim()))
+            if(e.target.value.length){
+            if(e.target.value.trim().length ) setMots(e.target.value.split(',').map(mot=>mot.trim()))}
             else setMots(["mots clés"])
           } }
               
