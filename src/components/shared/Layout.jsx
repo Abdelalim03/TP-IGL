@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { Outlet, useNavigate } from "react-router-dom"
 import Navbar from "./Navbar"
-import { login } from "../../features/auth/authSlice";
+import { login, messages } from "../../features/auth/authSlice";
 import { getAllAnnonces, getFavourites, mesAnnonces } from "../../features/annonces/annonceSlice";
 import jwtDecode from "jwt-decode";
 
@@ -31,10 +31,9 @@ function Layout() {
           }else{
             dispatch(getFavourites())
             dispatch(mesAnnonces())
+            dispatch(messages());
           }
-          // while(!user){
-          //   console.log("kkk");
-          // } ;
+         
           nav('/')
         }
       }else{
@@ -44,7 +43,7 @@ function Layout() {
           }else{
             dispatch(getFavourites())
             dispatch(mesAnnonces())
-            
+            dispatch(messages());
           }
       }
     },[dispatch,nav,isAdmin])
