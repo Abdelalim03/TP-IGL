@@ -2,6 +2,28 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:5000/'
 
+const getAllAnnonces = async (token)=>{
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.get(API_URL + 'getAll',config)
+  return response.data
+}
+
+const scrapAnnonces = async (token)=>{
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.get(API_URL + 'scrap',config)
+  console.log(response.data);
+  return response.data.data
+}
+
+
 // delete Annonce
 const mesAnnonces = async (token) => {
   const config = {
@@ -82,7 +104,9 @@ const annonceService = {
   addAnnonce,
   deleteFavorite,
   getFavourites,
-  mesAnnonces
+  mesAnnonces,
+  getAllAnnonces,
+  scrapAnnonces
 }
 
 export default annonceService

@@ -21,7 +21,7 @@ function SelfAnnonces() {
       navigate('/');
     }
     if (!annonces.length) setAnnonces(myAnnonces)
-  }, [navigate,dispatch,myAnnonces])
+  }, [navigate,myAnnonces])
   if (isLoading && annonces?.length===0) {
     return <Spinner />
   }

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom"
 
 function Home() {
-  const {user} = useSelector((state)=>state.auth)
+  const {user,isAdmin} = useSelector((state)=>state.auth)
   const navigate = useNavigate();
   const [isToggle] = useOutletContext();
   const [mots, setMots] = useState(["mots clés"]);
@@ -12,7 +12,7 @@ function Home() {
   const [annonces,setAnnonces] = useState([]);
   useEffect(() => {
 
-    if (!user){
+    if (!user || isAdmin){
       navigate('/');
     }
     if (mots.length!==0 && mots[0]!=="mots clés" && annonces.length!==0){

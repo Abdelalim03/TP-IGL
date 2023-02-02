@@ -83,7 +83,7 @@ function Post() {
         }).then(result => {
           if (result.status===200){
             setAnnonce(intialAnnonce);
-            navigate('')
+            navigate('/annonces/'+result.data.id)
           }
         }).catch(err => {
           console.log(err)

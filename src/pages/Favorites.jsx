@@ -12,7 +12,7 @@ function Favorites() {
   const {favourites, isLoading, isError, message} = useSelector((state)=>{
     return state.annonce
   });
-  const {user} = useSelector((state)=>{
+  const {user,isAdmin} = useSelector((state)=>{
     return state.auth
   });
   const [annonces, setAnnonces] = useState([])
@@ -21,7 +21,7 @@ function Favorites() {
     if (isError) {
       console.log(message)
     }
-    if (!user) {
+    if (!user || isAdmin) {
       navigate('/');
     }
     if (!annonces.length)setAnnonces(favourites)

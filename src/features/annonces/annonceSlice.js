@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import annonceService from './annonceService'
 
 const initialState = {
-  annnonces: [],
+  annonces: [],
   favourites:[],
   myAnnonces:[],
   isError: false,
@@ -10,6 +10,32 @@ const initialState = {
   isLoading: false,
   message: '',
 }
+
+export const getAllAnnonces = createAsyncThunk('annonce/getAllAnnonces', async (_,thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token
+
+    return await annonceService.getAllAnnonces(token)
+  } catch (error) {
+    const message =
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+export const scrapAnnonces = createAsyncThunk('annonce/scrapAnnonces', async (_,thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token
+
+    return await annonceService.scrapAnnonces(token)
+  } catch (error) {
+    const message =
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
 
 export const mesAnnonces = createAsyncThunk(
   'annonce/mesAnnonces',
@@ -181,6 +207,34 @@ export const annonceSlice = createSlice({
         state.favourites = state.favourites.filter(favourite=>favourite.id!==action.payload.id)
       })
       .addCase(deleteFavorite.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.user = null
+      })
+      .addCase(getAllAnnonces.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getAllAnnonces.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.annonces = action.payload
+      })
+      .addCase(getAllAnnonces.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.user = null
+      })
+      .addCase(scrapAnnonces.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(scrapAnnonces.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.myAnnonces = action.payload
+      })
+      .addCase(scrapAnnonces.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

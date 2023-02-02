@@ -11,14 +11,16 @@ import Signup from './pages/Signup';
 import Admin from './pages/Admin';
 import { useSelector } from 'react-redux';
 import Messages from './pages/Messages';
+import AdminAnnonces from './pages/AdminAnnonces';
 function App() {
-  const {user} = useSelector(state=>state.auth);
+  const {user,isAdmin} = useSelector(state=>state.auth);
     
   return (
       <Router>
           <Routes >
             <Route path="/" element={<Layout />} >
-              <Route index={user && true} element={<Home />} />
+              <Route index={isAdmin &&  true} element={<Admin />} />
+              <Route index={user && !isAdmin &&  true} element={<Home />} />
               <Route path='signup' element={<Signup />} />
               <Route index={!user && true} element={<Login />} />
               <Route path='admin' element={<Admin />} />
@@ -28,7 +30,7 @@ function App() {
               <Route path='myannonces' element={<SelfAnnonces />} />
               <Route path='postannonce' element={<Post />} />
               <Route path='messages' element={<Messages />} />
-              <Route path='admin' element={<Admin />} />
+              <Route path='allannonces' element={<AdminAnnonces />} />
               <Route path="*" element={<p className='text-center pt-[1/2]'>There's nothing here: 404!</p>} />
             </Route>
           </Routes>

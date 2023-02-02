@@ -6,7 +6,7 @@ import { logout } from "../../features/auth/authSlice";
 import { useEffect, useState } from "react";
 
 
-function Navbar({user,button1,button2,button0,isToggle,setIsToggle}) {
+function Navbar({isAdmin,user,button1,button2,button0,isToggle,setIsToggle}) {
   const router = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,12 +22,14 @@ function Navbar({user,button1,button2,button0,isToggle,setIsToggle}) {
   }
   const [selected, setSelected] = useState(0)
   useEffect(() => {
-    if (router.pathname === "/favorites" ) {
+    if (router.pathname === "/favorites" ||  router.pathname === "/allannonces") {
       setSelected(1);
     } else if (router.pathname==="/myannonces" || (!user && router.pathname==="/signup")){
       setSelected(2);
     } else if (router.pathname==="/postAnnonce" || (!user && router.pathname==="/")){
       setSelected(3);
+    }else{
+      setSelected(0);
     }
   }, [router.pathname,user])
   
@@ -47,14 +49,14 @@ function Navbar({user,button1,button2,button0,isToggle,setIsToggle}) {
             </div>
 
             <div className="hidden md:flex gap-2 lg:gap-4" >
-                {button0 && <Link onClick={()=>setSelected(1)} to={button0==="MES FAVORIS"&&"/favorites"} className={`nav-button ${selected===1?"bg-mainColor text-white":"bg-white text-mainColor"}`} >{button0}</Link>}
+                {button0 && <Link onClick={()=>setSelected(1)} to={button0==="MES FAVORIS"?"/favorites":"/allannonces"} className={`nav-button ${selected===1?"bg-mainColor text-white":"bg-white text-mainColor"}`} >{button0}</Link>}
                 {button1 && <Link onClick={()=>setSelected(2)} to={button1==="Créer COMPTE"?"/signup":"/myannonces"} className={`nav-button ${selected===2?"bg-mainColor text-white":"bg-white text-mainColor"}`}>{button1}</Link>}
                 {button2 && <Link onClick={()=>setSelected(3)} to={button2==="se connecter"?"/":"/postAnnonce"} className={`nav-button ${selected===3?"bg-mainColor text-white":"bg-white text-mainColor"}`}>{button2}</Link>}
                   {user && <div className="flex items-center justify-end gap-5">
                     
-                    <Link onClick={()=>setSelected(0)} to={'/messages'}>
+                    {!isAdmin &&<Link onClick={()=>setSelected(0)} to={'/messages'}>
                       <FiMail className="text-white  w-8 h-8" />
-                    </Link>
+                    </Link>}
                     <div className="cursor-pointer" onClick={handleOut} >
                       <BiLogOut className="text-white rotate-180 w-8 h-8"/>
                     </div>
@@ -86,14 +88,14 @@ function Navbar({user,button1,button2,button0,isToggle,setIsToggle}) {
         </div>
         {isToggle &&
             <div className="flex md:hidden z-10 absolute top-16 left-1/2 mt-2 w-full -translate-x-1/2 flex-col gap-1  justify-start items-center " >
-              {button0 && <Link onClick={()=>setSelected(1)} to={button0==="MES FAVORIS"&&"/favorites"} className="nav-button-mob">{button0}</Link>}
+              {button0 && <Link onClick={()=>setSelected(1)} to={button0==="MES FAVORIS"?"/favorites":"/allannonces"} className="nav-button-mob">{button0}</Link>}
                 {button1 && <Link onClick={()=>setSelected(2)} to={button1==="Créer COMPTE"?"/signup":"/myannonces"} className="nav-button-mob">{button1}</Link>}
                 {button2 && <Link onClick={()=>setSelected(3)} to={button2==="se connecter"?"/login":"/postAnnonce"} className="nav-button-mob">{button2}</Link>}
                 {user && < >
                     
-                    <Link className="nav-button-mob"  to={'/messages'}>
+                   {!isAdmin && <Link className="nav-button-mob"  to={'/messages'}>
                       Mes Messages
-                    </Link>
+                    </Link>}
                     <div className="cursor-pointer nav-button-mob hover:text-red-600" onClick={handleOut} >
                       Se déconnecter
                     </div>

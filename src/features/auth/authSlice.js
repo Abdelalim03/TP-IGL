@@ -11,6 +11,7 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isAdmin:user?.token && process.env.REACT_APP_ADMINS.includes(jwtDecode(user?.token).sub),
   message: '',
 }
 
@@ -62,6 +63,7 @@ export const authSlice = createSlice({
         state.isLoading = false
         state.isSuccess = true
         state.user = action.payload
+        state.isAdmin = state.user?.token && process.env.REACT_APP_ADMINS.includes(jwtDecode(state.user?.token).sub)
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false
@@ -71,6 +73,7 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null
+        state.isAdmin = false
       })
   },
 })
