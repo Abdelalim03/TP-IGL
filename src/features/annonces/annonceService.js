@@ -10,8 +10,8 @@ const getAllAnnonces = async (token)=>{
   }
   const response = await axios.get(API_URL + 'getAll',config)
   return response.data
-}
-
+} 
+ 
 const scrapAnnonces = async (token)=>{
   const config = {
     headers: {
@@ -96,17 +96,29 @@ const deleteFavorite = async (annonceId,token) => {
  
   return response.data
 }
+const messages = async (token) => { 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
 
+  const response = await axios.get('http://localhost:5000/getmessages', config)
+  console.log(response.data.data);
+  return response.data.data
+  
+}
 
 const annonceService = {
   deleteAnnonce,
   addFavorite,
   addAnnonce,
   deleteFavorite,
-  getFavourites,
+  getFavourites, 
   mesAnnonces,
   getAllAnnonces,
-  scrapAnnonces
+  scrapAnnonces,
+  messages
 }
 
 export default annonceService

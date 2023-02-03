@@ -24,9 +24,12 @@ function Favorites() {
     if (!user || isAdmin) {
       navigate('/');
     }
-    if (!annonces.length)setAnnonces(favourites)
-  }, [navigate])
-  if (isLoading) {
+
+    if (!annonces?.length) dispatch(getFavourites())
+    if (!annonces?.length)setAnnonces(favourites)
+    console.log(annonces);
+  }, [navigate,isLoading])
+  if (isLoading && annonces?.length===0) {
     return <Spinner />
   }
   return (

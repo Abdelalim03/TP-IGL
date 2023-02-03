@@ -91,7 +91,7 @@ function AnnonceList({isAdmin,annonces,setAnnonces,search}) {
                  <Link to={'/annonces/'+annonce.id} className='text-mainColor font-bold text-xl cursor-pointer'>{annonce.title}</Link>
                  <p className='text-navbar font-bold text-lg'>{annonce.type}</p>
                  <p className='text-lg font-semibold text-[#514F4D]'>{annonce.category}</p>
-                 <p className='text-lg font-semibold text-[#514F4D]'>{annonce.space}</p>
+                 <p className='text-lg font-semibold text-[#514F4D]'>{annonce.space} m²</p>
                  <p className='text-lg font-semibold text-[#514F4D]'>{annonce.localisation}</p>
                  <p className='text-lg text-[#807D7C]'>{annonce.description.length<=300?annonce.description:annonce.description.substring(0,300)+"..."}</p>
                  
@@ -105,7 +105,7 @@ function AnnonceList({isAdmin,annonces,setAnnonces,search}) {
                   <label onClick={()=>setMessage("")} className='cursor-pointer' htmlFor={"confirm-modal"+annonce.id}><img className='absolute w-8 -right-3.5 -top-3.5'  src={close} alt="fermer" /></label> 
                   <img className='absolute w-20 -top-12 left-1/2 -translate-x-1/2' src={house} alt="fermer" />
                   <p className='text-xl font-bold mt-2 text-[#575656]'>Contacter l'annonceur</p>
-                  <textarea value={message} onChange={(e)=>setMessage(e.target.value)} name="title" id="tit"  className="bg-[#E9E9E9] focus:ring-0 focus:border-[#888282] mt-4  text-[#7C8287] h-full w-full p-3 resize-none border-2 border-[#888282] rounded-xl outline-none "   placeholder="Envoyer message d'offre à l'annonceur" ></textarea>
+                  <textarea value={message} maxLength={40} onChange={(e)=>setMessage(e.target.value)} name="title" id="tit"  className="bg-[#E9E9E9] focus:ring-0 focus:border-[#888282] mt-4  text-[#7C8287] h-full w-full p-3 resize-none border-2 border-[#888282] rounded-xl outline-none "   placeholder="Envoyer message d'offre à l'annonceur" ></textarea>
                 </>}
                 {
                   jwtDecode(user.token).sub===annonce.userId &&

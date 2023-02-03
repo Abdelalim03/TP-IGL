@@ -11,7 +11,7 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
-  Messages:[],
+  // Messages:[],
   isAdmin:user?.token && process.env.REACT_APP_ADMINS.includes(jwtDecode(user?.token).sub),
   message: '',
 }
@@ -44,18 +44,18 @@ export const logout = createAsyncThunk('auth/logout', async (token, thunkAPI) =>
   }
 })
 
-export const messages = createAsyncThunk('auth/messages', async (_, thunkAPI) => {
-  try {
-    const token = thunkAPI.getState().auth.user.token
-    return await authService.messages(token)
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString()
-    return thunkAPI.rejectWithValue(message)
-  }
-})
+// export const messages = createAsyncThunk('auth/messages', async (_, thunkAPI) => {
+//   try {
+//     const token = thunkAPI.getState().auth.user.token
+//     return await authService.messages(token)
+//   } catch (error) {
+//     const message =
+//       (error.response && error.response.data && error.response.data.message) ||
+//       error.message ||
+//       error.toString()
+//     return thunkAPI.rejectWithValue(message)
+//   }
+// })
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -89,20 +89,7 @@ export const authSlice = createSlice({
         state.user = null
         state.isAdmin = false
       })
-      .addCase(messages.pending, (state) => {
-        state.isLoading = true
-      })
-      .addCase(messages.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.Messages = action.payload
-      })
-      .addCase(messages.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
-        state.user = null
-      })
+      
   },
 })
 

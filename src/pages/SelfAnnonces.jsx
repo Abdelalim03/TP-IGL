@@ -20,8 +20,9 @@ function SelfAnnonces() {
     if (!user) {
       navigate('/');
     }
+    if (!annonces.length) dispatch(mesAnnonces())
     if (!annonces.length) setAnnonces(myAnnonces)
-  }, [navigate,myAnnonces])
+  }, [navigate])
   if (isLoading && annonces?.length===0) {
     return <Spinner />
   }

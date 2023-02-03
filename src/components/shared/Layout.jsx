@@ -25,28 +25,27 @@ function Layout() {
         if(token){
           dispatch(login(token));
 
-          if(isAdmin){
-            dispatch(getAllAnnonces())
+          // if(isAdmin){
+          //   dispatch(getAllAnnonces())
             
-          }else{
-            dispatch(getFavourites())
-            dispatch(mesAnnonces())
-            dispatch(messages());
-          }
+          // }else{
+          //   dispatch(getFavourites())
+          //   dispatch(mesAnnonces())
+          // }
          
           nav('/')
         }
       }else{
-        if(isAdmin){
-            dispatch(getAllAnnonces())
+        // if(isAdmin){
+        //     dispatch(getAllAnnonces())
             
-          }else{
-            dispatch(getFavourites())
-            dispatch(mesAnnonces())
-            dispatch(messages());
-          }
+        //   }else{
+        //     dispatch(getFavourites())
+        //     dispatch(mesAnnonces())
+        //     // dispatch(messages())
+        //   }
       }
-    },[dispatch,nav,isAdmin])
+    },[nav])
   return (
     <>
         {!isLoading &&<>

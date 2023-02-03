@@ -2,7 +2,7 @@ import Map, { NavigationControl, Marker } from "react-map-gl";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-const MapAnnonces = ({announces}) => {
+const MapAnnonces = ({long,lat}) => {
 
   return (
     <dir className="ContainerMap_Annonce">
@@ -20,8 +20,8 @@ const MapAnnonces = ({announces}) => {
           <NavigationControl position="top-left" />
 
             <Marker
-              longitude={26}
-              latitude={20}
+              longitude={long?long:3.05176}
+              latitude={lat?lat:36.77172}
             ></Marker>
 
 

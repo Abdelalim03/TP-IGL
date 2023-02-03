@@ -5,6 +5,7 @@ const initialState = {
   annonces: [],
   favourites:[],
   myAnnonces:[],
+  Messages:[],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -115,6 +116,19 @@ export const deleteFavorite = createAsyncThunk('annonce/deleteFavorite', async (
   }
 })
 
+export const messages = createAsyncThunk('annonce/messages', async (_, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token
+    return await annonceService.messages(token)
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
 export const annonceSlice = createSlice({
   name: 'annonce',
   initialState,
@@ -122,6 +136,7 @@ export const annonceSlice = createSlice({
     reset: (state) => {
       state.favourites=[]
       state.myAnnonces=[]
+      state.Messages=[]
       state.isLoading = false
       state.isSuccess = false
       state.isError = false
@@ -240,6 +255,19 @@ export const annonceSlice = createSlice({
         state.message = action.payload
         state.user = null
       })
+      .addCase(messages.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(messages.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.Messages = action.payload
+      })
+      .addCase(messages.rejected, (state, action) => {
+        state.isLoading = false 
+        state.isError = true
+        state.message = action.payload
+      }) 
       
   },
 })

@@ -35,23 +35,23 @@ const logout = async (token) => {
   
 }
 
-const messages = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
+// const messages = async (token) => {
+//   const config = {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   }
 
-  const response = await axios.get('http://localhost:5000/getmessages', config)
+//   const response = await axios.get('http://localhost:5000/getmessages', config)
   
-  return response.data.data
+//   return response.data.data
   
-}
+// }
 
 const authService = {
   logout,
   login,
-  messages
+  // messages
 }
 
 export default authService
