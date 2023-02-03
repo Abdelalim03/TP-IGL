@@ -8,6 +8,9 @@ function Post() {
   const [isToggle,setIsToggle] = useOutletContext();
   const {user} = useSelector(state=>state.auth);
   const navigate = useNavigate();
+  const [lat, setLat] = useState(0);
+  const [log, setLog] = useState(0);
+  
   const types = ["Terrain", "Terrain Agricole", "Appartement", "Maison", "Bungalow"];
   const [algeria, setAlgeria] = useState({});
   const handleChange = (e) =>{
@@ -75,7 +78,8 @@ function Post() {
       .forEach(key=>{
         formData.append(key,annonce[key].value)
         });
-
+        formData.append('lat',lat);
+        formData.append('long',log);
         axios.post('http://localhost:5000/new', formData,{
           headers:{
             Authorization: `Bearer ${user.token}`,
@@ -90,6 +94,15 @@ function Post() {
         })
       
   }
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    }
+    function showPosition(position) {
+      setLat(position.coords.latitude);
+      setLog(position.coords.longitude);
+    }
+  }
   useEffect(() => {
     setIsToggle(false);
     if (!user) navigate('/')
@@ -102,7 +115,10 @@ function Post() {
     .then(response=>{
       setAlgeria(response.data);
     })
-    .catch(err=>console.log(err))}
+    .catch(err=>console.log(err));
+    getLocation();
+  }
+
   }, []);
 
   return (
