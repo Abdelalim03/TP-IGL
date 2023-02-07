@@ -16,6 +16,7 @@ function Messages() {
     return state.auth
   });
   const [Message,setMessage] =  useState([])
+  const [wait,setWait] = useState(false);
   useEffect(() => {
     setIsToggle(false);
     if (isError) {
@@ -24,10 +25,13 @@ function Messages() {
     if (!user || isAdmin) {
       navigate('/');
     }
-    if (!Message?.length && !isLoading) {
+    if (!Message?.length &&!wait && !isLoading) {
       dispatch(messages());
     }
-    if (!Message?.length && Messages.length)  setMessage(Messages)
+    if (!Message?.length && Messages.length)  {
+      setMessage(Messages)
+      if (!Message?.length) setWait(true);
+    }
     
     
   }, [navigate,user,isAdmin,Messages])

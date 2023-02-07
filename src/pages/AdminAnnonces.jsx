@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Spinner from '../components/shared/Spinner';
 import AnnonceList from '../components/shared/AnnonceList';
 import { useNavigate, useOutletContext } from 'react-router-dom';
@@ -14,6 +14,7 @@ function AdminAnnonces() {
     const {isAdmin,user} = useSelector((state)=>{
       return state.auth
     });
+    const [wait,setWait] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
       setIsToggle(false);
@@ -24,6 +25,9 @@ function AdminAnnonces() {
         navigate('/');
       }
      if (annonces.length===0 && !isLoading) dispatch(getAllAnnonces())
+     if (!annonces?.length){
+      setWait(true);
+   }
     }, [navigate,annonces])
     if (isLoading) {
       return <Spinner />

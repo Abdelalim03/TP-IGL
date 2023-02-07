@@ -16,6 +16,7 @@ function Favorites() {
     return state.auth
   });
   const [annonces, setAnnonces] = useState([])
+  const [wait,setWait] = useState(false);
   useEffect(() => {
     setIsToggle(false);
     if (isError) {
@@ -25,8 +26,11 @@ function Favorites() {
       navigate('/');
     }
 
-    if (!annonces?.length) dispatch(getFavourites())
-    if (!annonces?.length) setAnnonces(favourites)
+    if (!annonces?.length && !wait && !isLoading) dispatch(getFavourites())
+    if (!annonces?.length){
+       setAnnonces(favourites)
+       if (!annonces?.length) setWait(true);
+    }
   }, [navigate,favourites])
   if (isLoading && annonces?.length===0) {
     return <Spinner />

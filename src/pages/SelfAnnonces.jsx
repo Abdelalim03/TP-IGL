@@ -11,7 +11,8 @@ function SelfAnnonces() {
   const navigate = useNavigate();
   const {user,isAdmin} = useSelector((state)=>state.auth)
   const {myAnnonces, isLoading, isError, message} = useSelector((state)=>state.annonce)
-  const [annonces, setAnnonces] = useState([])
+  const [annonces, setAnnonces] = useState([]);
+  const [wait,setWait] = useState(false);
   useEffect(() => {
     setIsToggle(false);
     if (isError) {
@@ -20,13 +21,14 @@ function SelfAnnonces() {
     if (!user || isAdmin) {
       navigate('/');
     }
-    if (!annonces?.length &&!isLoading) {
-      dispatch(mesAnnonces())
+    if (!annonces?.length && !wait && !isLoading) {
+       dispatch(mesAnnonces())
     }
     if (!annonces?.length) {
       setAnnonces(myAnnonces)
+      if (!annonces?.length) setWait(true);
     }
-  }, [navigate])
+  }, [navigate,myAnnonces])
   if (isLoading && annonces?.length===0) {
     return <Spinner />
   }
