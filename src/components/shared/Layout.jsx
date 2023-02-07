@@ -32,7 +32,6 @@ function Layout() {
           //   dispatch(getFavourites())
           //   dispatch(mesAnnonces())
           // }
-         
           nav('/')
         }
       }else{

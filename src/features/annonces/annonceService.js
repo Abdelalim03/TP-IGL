@@ -104,7 +104,6 @@ const messages = async (token) => {
   }
 
   const response = await axios.get('http://localhost:5000/getmessages', config)
-  console.log(response.data.data);
   return response.data.data
   
 }

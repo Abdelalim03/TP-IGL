@@ -24,11 +24,13 @@ function Messages() {
     if (!user || isAdmin) {
       navigate('/');
     }
-    if (!Message?.length) dispatch(messages());
-    if (!Message?.length)  setMessage(Messages)
+    if (!Message?.length && !isLoading) {
+      dispatch(messages());
+    }
+    if (!Message?.length && Messages.length)  setMessage(Messages)
     
     
-  }, [navigate,isLoading])
+  }, [navigate,user,isAdmin,Messages])
   if (isLoading ) {
     return <Spinner />
   }

@@ -3,6 +3,7 @@ import Spinner from '../components/shared/Spinner';
 import AnnonceList from '../components/shared/AnnonceList';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAllAnnonces } from '../features/annonces/annonceSlice';
 
 function AdminAnnonces() {
     const [isToggle,setIsToggle] = useOutletContext();
@@ -13,6 +14,7 @@ function AdminAnnonces() {
     const {isAdmin,user} = useSelector((state)=>{
       return state.auth
     });
+    const dispatch = useDispatch();
     useEffect(() => {
       setIsToggle(false);
       if (isError) {
@@ -21,8 +23,8 @@ function AdminAnnonces() {
       if (!user || !isAdmin) {
         navigate('/');
       }
-
-    }, [navigate])
+     if (annonces.length===0 && !isLoading) dispatch(getAllAnnonces())
+    }, [navigate,annonces])
     if (isLoading) {
       return <Spinner />
     }

@@ -14,9 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addFavorite, deleteAnnonce, deleteFavorite } from '../../features/annonces/annonceSlice';
 import jwtDecode from 'jwt-decode';
 
-function AnnonceList({isAdmin,annonces,setAnnonces,search}) {
+function AnnonceList({annonces,setAnnonces,search}) {
     const dispatch = useDispatch()
-    const {user} = useSelector((state)=>state.auth);
+    const {user,isAdmin} = useSelector((state)=>state.auth);
     const {favourites} = useSelector((state)=>state.annonce);
     const [message, setMessage] = useState("");
 
@@ -93,7 +93,7 @@ function AnnonceList({isAdmin,annonces,setAnnonces,search}) {
                  <p className='text-lg font-semibold text-[#514F4D]'>{annonce.category}</p>
                  <p className='text-lg font-semibold text-[#514F4D]'>{annonce.space} m²</p>
                  <p className='text-lg font-semibold text-[#514F4D]'>{annonce.localisation}</p>
-                 <p className='text-lg text-[#807D7C]'>{annonce.description.length<=300?annonce.description:annonce.description.substring(0,300)+"..."}</p>
+                 <p className='text-lg break-all text-[#807D7C]'>{annonce.description.length<=300?annonce.description:annonce.description.substring(0,300)+"..."}</p>
                  
             </div>
             {!isAdmin && <label  htmlFor={"confirm-modal"+annonce.id} className={` absolute bottom-5 w-fit  left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto  md:right-5 cursor-pointer px-6 py-3 ${jwtDecode(user.token).sub!==annonce.userId?"bg-mainColor":"bg-red-600"} font-semibold uppercase text-white rounded-[56px]`}>{jwtDecode(user.token).sub!==annonce.userId?"Contacter":"Suppprimer"}</label>}

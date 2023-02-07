@@ -5,7 +5,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 const MapAnnonces = ({long,lat}) => {
 
   return (
-    <dir className="ContainerMap_Annonce">
+    <div className="ContainerMap_Annonce mt-8">
       <div className="map">
         <Map
           mapLib={maplibregl}
@@ -15,7 +15,7 @@ const MapAnnonces = ({long,lat}) => {
             zoom: 10,
           }}
           style={{ width: "100%", height: " calc(95vh - 77px)" }}
-          mapStyle="https://api.maptiler.com/maps/streets/style.json?key=ami5YZbLyI4lKlA0CpRx "
+          mapStyle="https://api.maptiler.com/maps/streets/style.json?key=ami5YZbLyI4lKlA0CpRx"
         >
           <NavigationControl position="top-left" />
 
@@ -27,7 +27,7 @@ const MapAnnonces = ({long,lat}) => {
 
         </Map>
       </div>
-    </dir>
+    </div>
   );
 };
 

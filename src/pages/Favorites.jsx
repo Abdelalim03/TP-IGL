@@ -26,16 +26,15 @@ function Favorites() {
     }
 
     if (!annonces?.length) dispatch(getFavourites())
-    if (!annonces?.length)setAnnonces(favourites)
-    console.log(annonces);
-  }, [navigate,isLoading])
+    if (!annonces?.length) setAnnonces(favourites)
+  }, [navigate,favourites])
   if (isLoading && annonces?.length===0) {
     return <Spinner />
   }
   return (
     <div
     className={`flex  items-center justify-start mx-auto container py-20 bg-white min-h-[calc(100vh-64px)] mt-16 md:mt-20  md:min-h-[calc(100vh-80px)] ${isToggle&&"pt-60 md:pt-20"}`}>
-     {annonces?.length>0 && <AnnonceList fav={true}   annonces={annonces} setAnnonces={setAnnonces}  /> }
+     {annonces?.length>0 && <AnnonceList  search={false}   annonces={annonces} setAnnonces={setAnnonces}  /> }
     </div>
   )
 }
